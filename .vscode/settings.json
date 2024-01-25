@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "print_image.h": "c",
+        "set_color.h": "c",
+        "menu.h": "c"
+    }
+}
