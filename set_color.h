@@ -1,29 +1,34 @@
-#include <stdio.h>
+#include <ncurses.h>
 #include <string.h>
+
 int set_color(char color[]);
-int set_color(char color[]){
-    if(color[0] == '\0'){
-        printf("\033[0;37m");
-    }else if(!strcmp(color,"red")){
-        printf("\033[0;31m");
-    }else if (!strcmp(color,"green"))
-    {
-        printf("\033[0;32m");
-    }else if (!strcmp(color,"yellow "))
-    {
-        printf("\033[0;33m");
-    }else if (!strcmp(color,"blue"))
-    {
-        printf("\033[0;34m");
-    }else if (!strcmp(color,"purple"))
-    {
-        printf("\033[0;35m");
-    }else if (!strcmp(color,"cyan"))
-    {
-        printf("\033[0;36m");
-    }else if (!strcmp(color,"dark"))
-    {
-        printf("\033[0;30m");
+
+int set_color(char color[]) {
+    start_color(); // Initialize color pairs
+    init_pair(1, COLOR_RED, COLOR_BLACK);     // Red text on black background
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);   // Green text on black background
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);  // Yellow text on black background
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);    // Blue text on black background
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK); // Purple text on black background
+    init_pair(6, COLOR_CYAN, COLOR_BLACK);    // Cyan text on black background
+    init_pair(7, COLOR_WHITE, COLOR_BLACK);   // White text on black background
+
+    if (color[0] == '\0') {
+        attron(COLOR_PAIR(7)); // Default color pair
+    } else if (!strcmp(color, "red")) {
+        attron(COLOR_PAIR(1));
+    } else if (!strcmp(color, "green")) {
+        attron(COLOR_PAIR(2));
+    } else if (!strcmp(color, "yellow")) {
+        attron(COLOR_PAIR(3));
+    } else if (!strcmp(color, "blue")) {
+        attron(COLOR_PAIR(4));
+    } else if (!strcmp(color, "purple")) {
+        attron(COLOR_PAIR(5));
+    } else if (!strcmp(color, "cyan")) {
+        attron(COLOR_PAIR(6));
+    } else if (!strcmp(color, "dark")) {
+        attron(COLOR_PAIR(7));
     }
-    
+    return 0;
 }

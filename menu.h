@@ -1,95 +1,62 @@
-
-#include <termios.h>
 #include <stdlib.h>
-static struct termios old, current;
-
-/* Initialize new terminal i/o settings */
-void initTermios(int echo)
-{
-    tcgetattr(0, &old);         /* grab old terminal i/o settings */
-    current = old;              /* make new settings same as old settings */
-    current.c_lflag &= ~ICANON; /* disable buffered i/o */
-    if (echo)
-    {
-        current.c_lflag |= ECHO; /* set echo mode */
-    }
-    else
-    {
-        current.c_lflag &= ~ECHO; /* set no echo mode */
-    }
-    tcsetattr(0, TCSANOW, &current); /* use these new terminal i/o settings now */
-}
-
-/* Restore old terminal i/o settings */
-void resetTermios(void)
-{
-    tcsetattr(0, TCSANOW, &old);
-}
-
-/* Read 1 character - echo defines echo mode */
-char getch_(int echo)
-{
-    char ch;
-    initTermios(echo);
-    ch = getchar();
-    resetTermios();
-    return ch;
-}
-
-/* Read 1 character without echo */
-char getch(void)
-{
-    return getch_(0);
-}
+#include <ncurses.h>
 
 int menu()
 {
-            system("clear");
     int n = 0;
-    while (1)
-    {
-        system("clear");
-        if (n > 8)
+    int c; // Use int instead of char to capture arrow key values
+    do{
+        switch (c)
+        {
+            case KEY_UP:
+                n--;
+                break;
+            case KEY_DOWN:
+                n++;
+                break;
+            case 10: // Enter key
+                // Handle menu selection here
+                // if (n == 0)
+                //     //play();
+                // else if (n == 1)
+                //     //level();
+                // else if (n == 2)
+                //     //logs();
+                // else if (n == 3)
+                //     //quit();
+                break;
+        }
+         clear();
+
+        if (n > 3)
             n = n % 4;
         if (n < 0)
             n += 4;
         set_color("green");
         print_image("menu");
         set_color("");
-        if (n % 4 == 0)
+        if (n%4 == 0)
             set_color("blue");
         print_image("menu.play");
         set_color("");
-        if (n % 4 == 1)
+        if (n%4 == 1)
             set_color("blue");
         print_image("menu.level");
         set_color("");
-        if (n % 4 == 2)
+        if (n%4 == 2)
             set_color("blue");
         print_image("menu.logs");
         set_color("");
-        if (n % 4 == 3)
+        if (n%4 == 3)
             set_color("red");
         print_image("menu.quit");
         set_color("");
-        char c;
-        c = getch();
-        if (c == 'w' || c == 65)
-            n--;
-        if (c == 's' || c == 66)
-            n++;
-        if (c == 10){
-            break;
-            // if(c%4 == 0)
-            //     play();
-            // else if(c%4 == 1)
-            //     level();
-            // else if(c%4 == 2)
-            //     logs();
-            // else
-            //     quit();
-        }
-    fflush(stdin);
+        
+        // Handle arrow key inputs
+
+
+        refresh();
     }
+    while ((c = wgetch(stdscr)) != 'q'); // Use wgetch(stdscr) to get input from standard screen
     return 0;
 }
