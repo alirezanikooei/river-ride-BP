@@ -1,7 +1,6 @@
 
-//#include <termios.h>
-
-#define clear() printf("\033[H\033[J")
+#include <termios.h>
+#include <stdlib.h>
 static struct termios old, current;
 
 /* Initialize new terminal i/o settings */
@@ -45,16 +44,15 @@ char getch(void)
 
 int menu()
 {
-
+            system("clear");
     int n = 0;
     while (1)
     {
-        
+        system("clear");
         if (n > 8)
             n = n % 4;
         if (n < 0)
             n += 4;
-            printf("\x1b[H\x1b[J");
         set_color("green");
         print_image("menu");
         set_color("");
@@ -80,8 +78,6 @@ int menu()
             n--;
         if (c == 's' || c == 66)
             n++;
-                clear();
-
         if (c == 10){
             break;
             // if(c%4 == 0)
@@ -93,6 +89,7 @@ int menu()
             // else
             //     quit();
         }
+    fflush(stdin);
     }
     return 0;
 }
