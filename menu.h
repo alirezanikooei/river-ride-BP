@@ -14,7 +14,8 @@ int menu()
             case KEY_DOWN:
                 n++;
                 break;
-            case 10: // Enter key
+            case 10:
+            // Enter key
                 // Handle menu selection here
                 // if (n == 0)
                 //     //play();
