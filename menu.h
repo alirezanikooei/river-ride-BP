@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <ncurses.h>
-
 int menu()
 {
     int n = 0;
