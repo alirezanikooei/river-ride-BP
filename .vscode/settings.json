@@ -3,7 +3,10 @@
         "print_image.h": "c",
         "set_color.h": "c",
         "menu.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "unistd.h": "c",
+        "move_airplane.h": "c",
+        "move_object.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
