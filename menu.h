@@ -16,12 +16,12 @@ int menu()
                 // Handle menu selection here
                  if (n == 0)
                      play();
-                // else if (n == 1)
+                //else if (n == 1)
                 //     //level();
-                // else if (n == 2)
-                //     //logs();
-                // else if (n == 3)
-                //     //quit();
+                 else if (n == 2)
+                     logs();
+                 else if (n == 3)
+                     exit(0);
                 break;
         }
          clear();

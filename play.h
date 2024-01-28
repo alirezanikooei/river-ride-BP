@@ -23,10 +23,10 @@ int play()
     while (1)
     {
         
-        if (frame % 70 == 0)
+        if (frame % 40 == 0)
         {
             add_mine(airplane,frame);
-        }if(frame % 90 == 0){
+        }if(frame % 60 == 0){
             add_fighter(airplane,frame);
         }
 
@@ -36,10 +36,16 @@ int play()
         char shape[MAX_LINE_LENGTH] = {};
 
         update_enemy(airplane, frame,board);
+        if(airplane->health > 70)
+            set_color("green");
+        else if(airplane->health > 30)
+            set_color("yellow");
+        else
+            set_color("red");
         print_imageXY("airplane", airplane, &row, &len,board,airplane);
         airplane->sizeY = row + 34;
         airplane->sizeX = len - 45;
-
+        set_color("");
         border_write();
         // move airplane
         int key = get_key();
@@ -50,9 +56,8 @@ int play()
         move_airplane(key, airplane, &shoot_y, max_x, max_y);
 
 
-        damage(airplane,max_x,max_y);
         // repeat frame
-        if(frame%10 == 0){
+        if(frame%30 == 0){
         for (int i = 0; i < 400; i++)
             for(int j = 0;j<400;j++)
                 board[i][j] = 0;

@@ -2,7 +2,22 @@ void end_game(int score,int firstTime){
     clear();
     int timeLen = time(NULL) - firstTime;
     mvprintw(20,20,"you lose. score : %d // time : %d",score, timeLen);
-
+        int score_num[10] = {0};
+    int i = 0;
+    int k = 10;
+    while (score != 0)
+    {
+        score_num[i] = score / k;
+        score /= k; 
+        char n[6] = {0}; 
+        strcat(n,"nums/");
+        n[5] = 48 + score_num[i];
+        //fprintf(stderr,n);
+        //exit(-1);
+        move(50,20);
+        print_image(n);
+        i++;k*=10;
+    }
 
 
     time_t unix_timestamp = time(NULL)+12600;  // Replace with your desired timestamp // 12600 iran timezone
@@ -19,6 +34,6 @@ void end_game(int score,int firstTime){
     mvprintw(15,10,"Second: %d\n", tm_info->tm_sec);
     
     fclose(file);
-    int key = getch();
-    //menu();
+    while (get_key()!=KEY_ENTER);
+    
 }

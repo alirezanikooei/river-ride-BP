@@ -16,3 +16,4 @@
 #include "border.h"
 #include "score_board.h"
 #include "end_game.h"
+#include "logs.h"
