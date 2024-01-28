@@ -74,25 +74,25 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
             int col_i = ob->y + 35 + (*row) + 50;
             if (!strcmp(ob->fileShape, "airplane"))
             {
-
                 board[row_i][col_i] = 1;
-                if (ob->y + 35 + *row > airplane->Vx)
-                {
-                    airplane->Vx = ob->y + 35 + *row;
-                }
-                if (ob->x - 25 + i > airplane->Vy)
-                {
-                    airplane->Vy = ob->x - 25 + i;
-                }
+            }else if(!strcmp(ob->fileShape, "shoot")){
+                board[row_i][col_i] = ob->id;
             }
             else
             {
                 if (board[row_i][col_i] == 1)
                 {
-                    // mvprintw(5,5,"d");
                     airplane->health -= ob->damage;
                     board[row_i][col_i] == 0;
                     delete_enemy(ob->id,airplane);
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                }else if (board[row_i][col_i] >= 2)
+                {
+                    board[row_i][col_i] == 0;
+                    delete_enemy(ob->id,airplane);
+                    delete_enemy(board[row_i][col_i],airplane);
                     fclose(fptr);
                     refresh();
                     return 0;

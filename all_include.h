@@ -15,5 +15,4 @@
 #include "move_airplane.h"
 #include "border.h"
 #include "score_board.h"
-#include "damage.h"
 #include "end_game.h"

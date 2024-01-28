@@ -4,7 +4,7 @@ int play()
     attron(A_BOLD);
     int board[400][400]; // 0 for what is and 1 for the id
     getmaxyx(stdscr, max_y, max_x);
-    int frame = 1;
+    int frame = 0;
     int score = 0;
 
     // init airplane
@@ -19,13 +19,15 @@ int play()
 
     int row = 0;
     int len = 0;
-
+    int firstTime = time(NULL);
     while (1)
     {
         
-        if (frame % 120 == 0)
+        if (frame % 70 == 0)
         {
-            add_enemy(airplane,frame);
+            add_mine(airplane,frame);
+        }if(frame % 90 == 0){
+            add_fighter(airplane,frame);
         }
 
         // score board
@@ -41,21 +43,26 @@ int play()
         border_write();
         // move airplane
         int key = get_key();
+        if(key == ' ')
+            add_shoot(airplane,frame);
+        if(key == KEY_BACKSPACE)
+            add_fighter(airplane,frame);
         move_airplane(key, airplane, &shoot_y, max_x, max_y);
 
 
         damage(airplane,max_x,max_y);
         // repeat frame
-        if(frame%30 == 0){
+        if(frame%10 == 0){
         for (int i = 0; i < 400; i++)
             for(int j = 0;j<400;j++)
                 board[i][j] = 0;
         }
         frame++;
-        usleep(17000);
+        usleep(16666.6666667);
         if (airplane->health <= 0)
         {
-            end_game(score);
+            end_game(score,firstTime);
+            break;
         }
         clear();
         refresh();
