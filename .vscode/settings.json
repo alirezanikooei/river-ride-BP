@@ -6,7 +6,12 @@
         "stdio.h": "c",
         "unistd.h": "c",
         "move_airplane.h": "c",
-        "move_object.h": "c"
+        "move_object.h": "c",
+        "get_key.h": "c",
+        "border.h": "c",
+        "damage.h": "c",
+        "play.h": "c",
+        "all_include.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -1,16 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ncurses.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <math.h>
-#include "print_image.h"
-#include "set_color.h"
-#include "menu.h"
-#include "play.h"
-#include "get_key.h"
-#include "move_object.h"
-#include "border.h"
+#define MAX_LINE_LENGTH 1000
+#include "all_include.h"
 
 int main(int argc, char const *argv[])
 {
@@ -22,9 +11,9 @@ int main(int argc, char const *argv[])
     keypad(stdscr, TRUE);  // Enable the keypad for arrow keys
     curs_set(0); 
 	clear();
-    //play();
-    menu();
 
+    menu();
+    
     endwin();
     return 0;
 }

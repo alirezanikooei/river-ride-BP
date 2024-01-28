@@ -1,84 +1,73 @@
-#define MAX_LINE_LENGTH 1000
-typedef struct objects
-{
-    int x;
-    int y;
-    int Vx;
-    int Vy;
-    int health;
-    int sizeX;
-    int sizeY;
-    char direction;
-    char fileShape[20];
-} obj;
-typedef obj *objP;
-
 int play()
 {
-    objP airplane = (objP)calloc(1, sizeof(obj));
-    int max_y, max_x;
+    // board get
+    attron(A_BOLD);
+    int board[400][400]; // 0 for what is and 1 for the id
     getmaxyx(stdscr, max_y, max_x);
-    int center_y = (max_y - 1) / 2;
-    int center_x = (max_x - 1) / 2;
-    int frame = 0;
-    airplane->x = center_x - 10;
-    airplane->y = center_y - 25;
+    int frame = 1;
+    int score = 0;
+
+    // init airplane
+    objP airplane = (objP)calloc(1, sizeof(obj));
+    airplane->x = (max_x - 1) / 2 - 10;
+    airplane->y = (max_y - 1) / 2 - 25;
     airplane->health = 100;
+    airplane->Vx = 0;
+    airplane->Vy = 0;
     int shoot_y = airplane->y + 40;
     strcpy(airplane->fileShape, "airplane");
 
-    FILE *file = fopen("image/airplane.txt", "r");
-    if (!file)
-        exit(-1);
-    struct timeval current_time;
+    int row = 0;
+    int len = 0;
+
     while (1)
     {
-                int row = 0;
-        int len = 0;
-        gettimeofday(&current_time, NULL);  
-        srand(current_time.tv_usec);
-         
-         attron(A_BOLD);
-         int score = pow(frame,1.001) / 20;
-         mvprintw(2,5,"|score : %d",score);
-         mvprintw(3,5,"|health : %%%d",airplane->health);
-         
-         //attroff(A_BOLD);
-        frame++;
+        
+        if (frame % 120 == 0)
+        {
+            add_enemy(airplane,frame);
+        }
+
+        // score board
+        score = score_board(airplane, frame);
+
         char shape[MAX_LINE_LENGTH] = {};
 
-        while (fgets(shape, MAX_LINE_LENGTH, file) != NULL)
-        {
-            // Print each line of the shape at the desired position
-            if(strlen(shape)>len)
-                len = strlen(shape);
-            mvprintw(airplane->y+35 + row, airplane->x-25, "%s", shape);
-            row++;
-        }
-        airplane->sizeY = row+34;
-        airplane->sizeX = len-45;
-        set_color("red");
-        mvprintw(shoot_y, airplane->x + 6, ".@.");
-        mvprintw(shoot_y, airplane->x - 25, ".@.");
-        
-
-        set_color("");
-
-        shoot_y--;
-        if (shoot_y < 0)
-            shoot_y = airplane->y + 40;
+        update_enemy(airplane, frame,board);
+        print_imageXY("airplane", airplane, &row, &len,board,airplane);
+        airplane->sizeY = row + 34;
+        airplane->sizeX = len - 45;
 
         border_write();
+        // move airplane
         int key = get_key();
-        move_object(key,airplane, &shoot_y,max_x,max_y);
+        move_airplane(key, airplane, &shoot_y, max_x, max_y);
 
-        fseek(file, 0, SEEK_SET);
-        usleep(33000);
-        if(airplane->health <= 0){
-            printw("end");
+
+        damage(airplane,max_x,max_y);
+        // repeat frame
+        if(frame%30 == 0){
+        for (int i = 0; i < 400; i++)
+            for(int j = 0;j<400;j++)
+                board[i][j] = 0;
+        }
+        frame++;
+        usleep(17000);
+        if (airplane->health <= 0)
+        {
+            end_game(score);
         }
         clear();
         refresh();
     }
-    fclose(file); // Close the file
+    attroff(A_BOLD);
 }
+        // // shoot
+        // shoot_y--;
+        // if (shoot_y < 0)
+        //     shoot_y = airplane->y + 40;
+        // set_color("red");
+        // mvprintw(shoot_y, airplane->x + 6, ".@.");
+        // mvprintw(shoot_y, airplane->x - 25, ".@.");
+        // 
+        // set_color("");
