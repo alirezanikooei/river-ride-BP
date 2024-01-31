@@ -26,6 +26,8 @@ void end_game(int score,int firstTime){
     tm_info = gmtime(&unix_timestamp);
     FILE *file = fopen("history/logs.txt", "a");
     fprintf(file, "%d %d %d %d %d %d %d\n",score, tm_info->tm_year + 1900, tm_info->tm_mon + 1, tm_info->tm_mday,tm_info->tm_hour,tm_info->tm_min,tm_info->tm_sec);
+    
+    
     mvprintw(10,10,"Year: %d\n", tm_info->tm_year + 1900);
     mvprintw(11,10,"Month: %d\n", tm_info->tm_mon + 1);
     mvprintw(12,10,"Day: %d\n", tm_info->tm_mday);

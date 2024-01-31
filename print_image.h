@@ -37,11 +37,8 @@ int print_image(char name[])
 }
 int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], objP airplane)
 {
-    // clear();
-    // refresh();
-    //            i      max_y       j
-    // fprintf(stderr,"\n/%d \n",*(board + ( iRow * COL) + iCol));
-    //   exit(-1);//*(board + ((ob->y+35 + *row) * max_y) + (*row, ob->x-25+i))
+
+    // if(!strcmp("bomber",ob->fileShape)){}
     char filename[strlen(name) + 10];
     strcpy(filename, "image/");
     strcat(filename, name);
@@ -54,6 +51,7 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
         printw("error opening %s\n", filename);
         refresh();
         endwin(); // Clean up ncurses before returning
+        exit(-1);
         return -1;
     }
     char shape[MAX_LINE_LENGTH] = {};
@@ -70,29 +68,73 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
             if (shape[i] == ' ' || shape[i] == '\n' || shape[i] == '\t' || shape[i] == '\r')
                 continue;
             mvprintw(ob->y + 35 + *row, ob->x - 25 + i, "%c", shape[i]);
-            int row_i =ob->x - 25 + i + 50 ;
+            int row_i = ob->x - 25 + i + 50;
             int col_i = ob->y + 35 + (*row) + 50;
             if (!strcmp(ob->fileShape, "airplane"))
-            {
                 board[row_i][col_i] = 1;
-            }else if(!strcmp(ob->fileShape, "shoot")){
+            else if (!strcmp(ob->fileShape, "shoot"))
+            {
                 board[row_i][col_i] = ob->id;
+            }
+            else if (!strcmp(ob->fileShape, "shoot.enemy"))
+            {
+                if (board[row_i][col_i] == 1)
+                {
+                    airplane->health -= ob->damage;
+                    board[row_i][col_i] = 0;
+                    delete_enemy(ob->id, airplane);
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                }
+            }else if (!strcmp(ob->fileShape, "bomb"))
+            {
+                if (board[row_i][col_i] == 1)
+                {
+                    airplane->health -= ob->damage;
+                    board[row_i][col_i] = 0;
+                    delete_enemy(ob->id, airplane);
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                }
+            }else if (!strcmp(ob->fileShape, "bomber"))
+            {
+                if (board[row_i][col_i] == 1)
+                {
+                    ob->airplane->health -= ob->damage;
+                    board[row_i][col_i] = 0;
+                    delete_enemy(ob->id, ob->airplane);
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                } else if (board[row_i][col_i] >= 2)
+                {
+                    board[row_i][col_i] == 0;
+                    if (ob && ob->airplane->id)
+                        delete_enemy(ob->id, ob->airplane);
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                }
             }
             else
             {
                 if (board[row_i][col_i] == 1)
                 {
                     airplane->health -= ob->damage;
-                    board[row_i][col_i] == 0;
-                    delete_enemy(ob->id,airplane);
+                    if (ob && airplane->id)
+                        delete_enemy(ob->id, airplane);
+                    board[row_i][col_i] = 0;
                     fclose(fptr);
                     refresh();
                     return 0;
-                }else if (board[row_i][col_i] >= 2)
+                }
+                else if (board[row_i][col_i] >= 2)
                 {
                     board[row_i][col_i] == 0;
-                    delete_enemy(ob->id,airplane);
-                    delete_enemy(board[row_i][col_i],airplane);
+                    if (ob && airplane->id)
+                        delete_enemy(ob->id, airplane);
                     fclose(fptr);
                     refresh();
                     return 0;

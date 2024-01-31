@@ -14,6 +14,7 @@ int play()
     airplane->health = 100;
     airplane->Vx = 0;
     airplane->Vy = 0;
+    airplane->id = 1;
     int shoot_y = airplane->y + 40;
     strcpy(airplane->fileShape, "airplane");
 
@@ -23,25 +24,30 @@ int play()
     while (1)
     {
         
-        if (frame % 40 == 0)
+        if (frame % 60 == 0)
         {
             add_mine(airplane,frame);
-        }if(frame % 60 == 0){
+        }
+        if(frame % 90 == 0){
             add_fighter(airplane,frame);
+        }if(frame % 150 == 0){
+            add_bomber(airplane,frame);
         }
 
         // score board
         score = score_board(airplane, frame);
 
-        char shape[MAX_LINE_LENGTH] = {};
 
         update_enemy(airplane, frame,board);
         if(airplane->health > 70)
             set_color("green");
         else if(airplane->health > 30)
             set_color("yellow");
-        else
+        else{
             set_color("red");
+            if(airplane->health < 15 && frame%2 == 0)
+                set_color("");
+        }
         print_imageXY("airplane", airplane, &row, &len,board,airplane);
         airplane->sizeY = row + 34;
         airplane->sizeX = len - 45;
@@ -51,35 +57,27 @@ int play()
         int key = get_key();
         if(key == ' ')
             add_shoot(airplane,frame);
-        if(key == KEY_BACKSPACE)
-            add_fighter(airplane,frame);
+        if(key == KEY_MOUSE)
+            add_mine(airplane,frame);
         move_airplane(key, airplane, &shoot_y, max_x, max_y);
 
 
         // repeat frame
-        if(frame%30 == 0){
+        if(frame%5 == 0){
         for (int i = 0; i < 400; i++)
             for(int j = 0;j<400;j++)
-                board[i][j] = 0;
+                if(board[i][j] != 0)
+                    board[i][j] = 0;
         }
         frame++;
         usleep(16666.6666667);
         if (airplane->health <= 0)
         {
-            end_game(score,firstTime);
-            break;
+           end_game(score,firstTime);
+           break;
         }
         clear();
         refresh();
     }
     attroff(A_BOLD);
 }
-        // // shoot
-        // shoot_y--;
-        // if (shoot_y < 0)
-        //     shoot_y = airplane->y + 40;
-        // set_color("red");
-        // mvprintw(shoot_y, airplane->x + 6, ".@.");
-        // mvprintw(shoot_y, airplane->x - 25, ".@.");
-        // 
-        // set_color("");

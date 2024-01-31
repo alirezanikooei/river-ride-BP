@@ -17,4 +17,3 @@ int main(int argc, char const *argv[])
     endwin();
     return 0;
 }
- 
