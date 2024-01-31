@@ -17,3 +17,4 @@
 #include "score_board.h"
 #include "end_game.h"
 #include "logs.h"
+#include "get_name.h"

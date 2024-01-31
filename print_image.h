@@ -34,6 +34,32 @@ int print_image(char name[])
     // Clean up ncurses
     refresh();
     return 0;
+}int print_image_score(char name[],int x,int y)
+{
+
+
+    char filename[strlen(name) + 10];
+    strcpy(filename, "image/");
+    strcat(filename, name);
+    strcat(filename, ".txt");
+    FILE *fptr = NULL;
+    char read_string[MAX_LEN];
+    if ((fptr = fopen(filename, "r")) == NULL)
+    {
+        // Print error message using ncurses
+        printw("error opening %s\n", filename);
+        refresh();
+        endwin(); // Clean up ncurses before returning
+        return -1;
+    }
+    int row = 0;
+    while (fgets(read_string, sizeof(read_string), fptr) != NULL){
+        mvprintw(10+y+row,x,"%s", read_string);
+        row++;
+    }
+    fclose(fptr);
+    refresh();
+    return 0;
 }
 int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], objP airplane)
 {

@@ -12,7 +12,7 @@ int set_color(char color[]) {
     init_pair(5, COLOR_MAGENTA, COLOR_BLACK); // Purple text on black background
     init_pair(6, COLOR_CYAN, COLOR_BLACK);    // Cyan text on black background
     init_pair(7, COLOR_WHITE, COLOR_BLACK);   // White text on black background
-
+    
     if (color[0] == '\0') {
         attron(COLOR_PAIR(7)); // Default color pair
     } else if (!strcmp(color, "red")) {

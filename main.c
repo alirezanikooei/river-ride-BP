@@ -11,9 +11,7 @@ int main(int argc, char const *argv[])
     keypad(stdscr, TRUE);  // Enable the keypad for arrow keys
     curs_set(0); 
 	clear();
-
     menu();
-    
     endwin();
     return 0;
 }

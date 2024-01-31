@@ -115,10 +115,10 @@ int add_bomber(objP airplane, int frame)
     }
     srand(time(NULL) + current + frame);
     objP newOB = (objP)calloc(1, sizeof(obj));
-    newOB->x = rand() % 250 + 30;
+    newOB->x = 250;
     newOB->y = -40;
-    newOB->Vy = 2;
-    newOB->Vx = 4;
+    newOB->Vy = 3;
+    newOB->Vx = 1;
     newOB->damage = 20;
     newOB->direction = 4;
     newOB->health = 100;

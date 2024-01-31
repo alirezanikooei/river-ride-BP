@@ -73,7 +73,9 @@ int play()
         usleep(16666.6666667);
         if (airplane->health <= 0)
         {
-           end_game(score,firstTime);
+        //    end_game(score,firstTime,airplane);
+            char name[20] = {};
+           get_name(name,score,firstTime,airplane);
            break;
         }
         clear();
