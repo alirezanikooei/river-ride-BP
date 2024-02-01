@@ -2,8 +2,6 @@ int move_airplane(int key, objP object, int *shoot_y, int maxX, int maxY)
 {
     if (maxX - object->sizeX > object->x + 3 && (key == KEY_RIGHT || key == 'd'))
     {
-        mvprintw(4, 5, "%d", object->sizeX);
-        mvprintw(5, 5, "%d", maxX);
         object->x += 5;
     }
     if (0 < object->x - object->sizeX - 20 && (key == KEY_LEFT || key == 'a'))

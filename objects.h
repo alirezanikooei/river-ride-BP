@@ -5,11 +5,12 @@ int add_mine(objP airplane, int frame)
     {
         current = current->next;
     }
-    srand(time(NULL) + current + frame);
+    int s = current;if(s<0)s*=-1;
+    srand(s*time(NULL));
     objP newOB = (objP)calloc(1, sizeof(obj));
     newOB->x = rand() % 250 + 10;
     newOB->y = -40;
-    newOB->Vy = 3;
+    newOB->Vy = 5;
     newOB->damage = 10;
     newOB->direction = 1;
     newOB->health = 50;
@@ -29,6 +30,44 @@ int add_shoot(objP airplane, int frame)
     objP newOB = (objP)calloc(1, sizeof(obj));
     newOB->x = airplane->x + 15;
     newOB->y = airplane->y;
+    newOB->Vy = 3;
+    newOB->damage = 50;
+    newOB->direction = 0;
+    newOB->health = 100;
+    strcpy(&(newOB->fileShape), "shoot");
+    current->next = newOB;
+    newOB->previous = current;
+    newOB->id = current->id + 1;
+    return 0;
+}int add_shoot_right(objP airplane, int frame)
+{
+    objP current = airplane;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    objP newOB = (objP)calloc(1, sizeof(obj));
+    newOB->x = airplane->x + 15-14;
+    newOB->y = airplane->y+8;
+    newOB->Vy = 3;
+    newOB->damage = 50;
+    newOB->direction = 0;
+    newOB->health = 100;
+    strcpy(&(newOB->fileShape), "shoot");
+    current->next = newOB;
+    newOB->previous = current;
+    newOB->id = current->id + 1;
+    return 0;
+}int add_shoot_left(objP airplane, int frame)
+{
+    objP current = airplane;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    objP newOB = (objP)calloc(1, sizeof(obj));
+    newOB->x = airplane->x + 15+14;
+    newOB->y = airplane->y+8;
     newOB->Vy = 3;
     newOB->damage = 50;
     newOB->direction = 0;
@@ -83,6 +122,48 @@ int add_shoot_enemy(objP airplane, int frame, objP enemy)
         newOB->id = current->id + 1;
     }
     return 0;
+}int bounce_health(objP airplane, int frame, objP enemy)
+{
+    if (enemy)
+    {
+        objP current = airplane;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        objP newOB = (objP)calloc(1, sizeof(obj));
+        newOB->x = enemy->x + 5;
+        newOB->y = enemy->y;
+        newOB->Vy = 10;
+        newOB->direction = 1;
+        newOB->health = 50;
+        strcpy(&(newOB->fileShape), "bounce.health");
+        current->next = newOB;
+        newOB->previous = current;
+        newOB->id = current->id + 1;
+    }
+    return 0;
+}int bounce_gun(objP airplane, int frame, objP enemy)
+{
+     if (enemy)
+    {
+        objP current = airplane;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        objP newOB = (objP)calloc(1, sizeof(obj));
+        newOB->x = enemy->x + 5;
+        newOB->y = enemy->y;
+        newOB->Vy = 10;
+        newOB->direction = 1;
+        newOB->health = 50;
+        strcpy(&(newOB->fileShape), "bounce.gun");
+        current->next = newOB;
+        newOB->previous = current;
+        newOB->id = current->id + 1;
+    }
+    return 0;
 }
 int add_fighter(objP airplane, int frame)
 {
@@ -91,15 +172,37 @@ int add_fighter(objP airplane, int frame)
     {
         current = current->next;
     }
-    srand(time(NULL) + current + frame);
+    int s = current;if(s<0)s*=-1;
+    srand(s*time(NULL));
+    objP newOB = (objP)calloc(1, sizeof(obj));
+    newOB->x = rand() % 250 + 10;
+    newOB->y = -40;
+    newOB->Vy = 3;
+    newOB->damage = 20;
+    newOB->direction = 1;
+    newOB->health = 200;
+    strcpy(&(newOB->fileShape), "fighter");
+    current->next = newOB;
+    newOB->previous = current;
+    newOB->id = current->id + 1;
+    return 0;
+}int add_helicopter(objP airplane, int frame)
+{
+    objP current = airplane;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    int s = current;if(s<0)s*=-1;
+    srand(s*time(NULL));
     objP newOB = (objP)calloc(1, sizeof(obj));
     newOB->x = rand() % 250 + 10;
     newOB->y = -40;
     newOB->Vy = 10;
     newOB->damage = 20;
     newOB->direction = 1;
-    newOB->health = 200;
-    strcpy(&(newOB->fileShape), "fighter");
+    newOB->health = 50;
+    strcpy(&(newOB->fileShape), "helicopter");
     current->next = newOB;
     newOB->previous = current;
     newOB->id = current->id + 1;
@@ -113,7 +216,7 @@ int add_bomber(objP airplane, int frame)
     {
         current = current->next;
     }
-    srand(time(NULL) + current + frame);
+
     objP newOB = (objP)calloc(1, sizeof(obj));
     newOB->x = 250;
     newOB->y = -40;
@@ -129,10 +232,16 @@ int add_bomber(objP airplane, int frame)
     newOB->id = current->id + 1;
     return 0;
 }
-
+int add_bounce(objP airplane, int frame, objP enemy){
+    int s = enemy;if(s<0)s*=-1;
+    srand(s*time(NULL));
+    if(rand()%30 > 15)
+        bounce_gun(airplane,frame,enemy);
+    else
+        bounce_health(airplane,frame,enemy);
+}
 int delete_enemy(int id, objP airplane)
 {
-
     if (id == 1)
         return 0;
     objP current = airplane->next;
@@ -142,6 +251,9 @@ int delete_enemy(int id, objP airplane)
         {
             if (current->next != NULL)
             {
+                if(!strcmp(current->fileShape,"helicopter")){
+                    add_bounce(airplane,20,current);
+                }
                 objP tmp = current->previous;
                 objP tmp2 = current->next;
                 free(current);
@@ -150,6 +262,9 @@ int delete_enemy(int id, objP airplane)
             }
             else
             {
+                if(!strcmp(current->fileShape,"helicopter")){
+                    bounce_health(airplane,20,current);
+                }
                 objP tmp = current->previous;
                 free(current);
                 tmp->next = NULL;
@@ -160,7 +275,7 @@ int delete_enemy(int id, objP airplane)
     }
     return 0;
 }
-int update_enemy(objP airplane, int frame, int *board)
+int update_enemy(objP airplane, int frame, int *board,int * score)
 {
 
     objP current = airplane->next;
@@ -183,12 +298,12 @@ int update_enemy(objP airplane, int frame, int *board)
             bomb_shoot_enemy(airplane, frame, current);
         }
 
-        print_imageXY(current->fileShape, current, &row, &len, board, airplane);
+        print_imageXY(current->fileShape, current, &row, &len, board, airplane,score);
         objP tmp = current;
         objP tmp2 = current->next;
         if (current)
-        {
-            if ((!strcmp(current->fileShape, "bomb") || !strcmp(current->fileShape, "mine") || !strcmp(current->fileShape, "bomber")  || !strcmp(current->fileShape, "shoot.enemy")) && (tmp->x < -3 || tmp->x > 270 || tmp->y > 30))
+        {                                                                                  
+            if ((!strcmp(current->fileShape, "bomb") || !strcmp(current->fileShape, "fighter")|| !strcmp(current->fileShape, "bounce.health") || !strcmp(current->fileShape, "bounce.gun") || !strcmp(current->fileShape, "helicopter") || !strcmp(current->fileShape, "mine") || !strcmp(current->fileShape, "bomber")  || !strcmp(current->fileShape,"shoot.enemy")) && (tmp->x < -3 || tmp->x > 270 || tmp->y > 30))
             {
                 delete_enemy(tmp->id, airplane);
             }

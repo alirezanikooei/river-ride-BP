@@ -20,3 +20,4 @@
 #include "get_name.h"
 #include "level.h"
 #include "add_effect.h"
+#include "level_value.h"
