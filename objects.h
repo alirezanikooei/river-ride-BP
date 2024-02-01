@@ -76,7 +76,7 @@ int add_shoot_enemy(objP airplane, int frame, objP enemy)
         newOB->Vy = 1;
         newOB->damage = 20;
         newOB->direction = 1;
-        newOB->health = 100;
+        newOB->health = 50;
         strcpy(&(newOB->fileShape), "bomb");
         current->next = newOB;
         newOB->previous = current;
@@ -95,10 +95,10 @@ int add_fighter(objP airplane, int frame)
     objP newOB = (objP)calloc(1, sizeof(obj));
     newOB->x = rand() % 250 + 10;
     newOB->y = -40;
-    newOB->Vy = 2;
+    newOB->Vy = 10;
     newOB->damage = 20;
     newOB->direction = 1;
-    newOB->health = 100;
+    newOB->health = 200;
     strcpy(&(newOB->fileShape), "fighter");
     current->next = newOB;
     newOB->previous = current;
@@ -121,7 +121,7 @@ int add_bomber(objP airplane, int frame)
     newOB->Vx = 1;
     newOB->damage = 20;
     newOB->direction = 4;
-    newOB->health = 100;
+    newOB->health = 50;
     newOB->airplane = airplane;
     strcpy(&(newOB->fileShape), "bomber");
     current->next = newOB;
@@ -194,6 +194,8 @@ int update_enemy(objP airplane, int frame, int *board)
             }
             else if (!strcmp(current->fileShape, "shoot") && (tmp->y < -40))
             {
+                delete_enemy(tmp->id, airplane);
+            }else if(current->health <= 0){
                 delete_enemy(tmp->id, airplane);
             }
         }

@@ -18,3 +18,5 @@
 #include "end_game.h"
 #include "logs.h"
 #include "get_name.h"
+#include "level.h"
+#include "add_effect.h"

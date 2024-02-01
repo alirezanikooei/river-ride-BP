@@ -7,6 +7,7 @@ int play()
     int frame = 0;
     int score = 0;
 
+    int level = get_level();
     // init airplane
     objP airplane = (objP)calloc(1, sizeof(obj));
     airplane->x = (max_x - 1) / 2 - 10;
@@ -20,10 +21,23 @@ int play()
 
     int row = 0;
     int len = 0;
+    int shoot = 0;
     int firstTime = time(NULL);
     while (1)
     {
-        
+        border_write();
+        // move airplane
+        int key = get_key();
+       
+        //check the shoot
+        if(key == ' ' && shoot == 0){
+            add_shoot(airplane,frame);
+            shoot+=15;
+        }
+        if(shoot > 0)shoot--;
+        move_airplane(key, airplane, &shoot_y, max_x, max_y);
+        add_effect(key,frame,airplane);
+
         if (frame % 60 == 0)
         {
             add_mine(airplane,frame);
@@ -35,7 +49,7 @@ int play()
         }
 
         // score board
-        score = score_board(airplane, frame);
+        score = score_board(airplane, frame,level);
 
 
         update_enemy(airplane, frame,board);
@@ -52,14 +66,6 @@ int play()
         airplane->sizeY = row + 34;
         airplane->sizeX = len - 45;
         set_color("");
-        border_write();
-        // move airplane
-        int key = get_key();
-        if(key == ' ')
-            add_shoot(airplane,frame);
-        if(key == KEY_MOUSE)
-            add_mine(airplane,frame);
-        move_airplane(key, airplane, &shoot_y, max_x, max_y);
 
 
         // repeat frame
@@ -73,10 +79,9 @@ int play()
         usleep(16666.6666667);
         if (airplane->health <= 0)
         {
-        //    end_game(score,firstTime,airplane);
-            char name[20] = {};
-           get_name(name,score,firstTime,airplane);
-           break;
+        //     char name[20] = {};
+        //    get_name(name,score,firstTime,airplane);
+        //    break;
         }
         clear();
         refresh();
