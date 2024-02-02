@@ -101,9 +101,9 @@ int play()
         usleep(t);
         if (airplane->health <= 0)
         {
-            // char name[20] = {};
-            // get_name(name, score, firstTime, airplane);
-            // break;
+            char name[20] = {};
+            get_name(name, score, firstTime, airplane);
+            break;
         }
         clear();
         refresh();
