@@ -11,7 +11,9 @@
     "border.h": "c",
     "damage.h": "c",
     "play.h": "c",
-    "all_include.h": "c"
+    "all_include.h": "c",
+    "add_effect.h": "c",
+    "objects.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp_Runner.msvcBatchPath": "",

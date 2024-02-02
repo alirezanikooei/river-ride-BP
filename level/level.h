@@ -53,7 +53,7 @@ int level()
 }
 int set_level(int n){
     FILE* file;
-    file = fopen("level.bin", "w");
+    file = fopen("level/level.bin", "w");
     fwrite(&n, 1, sizeof(int), file);
     fclose(file);
     clear();
@@ -65,7 +65,7 @@ int set_level(int n){
 int get_level(){
     int n = 0;
     FILE* file;
-    file = fopen("level.bin", "r");
+    file = fopen("level/level.bin", "r");
     fread(&n, 1, sizeof(int), file);
     fclose(file);
     return n;
