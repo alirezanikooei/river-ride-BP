@@ -2,24 +2,24 @@ int level_time(int n){
     switch (n)
     {
     case 0:
-        return 300;
+        return 400;
     case 1:
         return 200;
     case 2:
-        return 100;
+        return 80;
     case 3:
-        return 70;
+        return 30;
     }
 }int level_time_min(int n){
     switch (n)
     {
     case 0:
-        return 200;
+        return 400;
     case 1:
-        return 250;
+        return 600;
     case 2:
-        return 270;
+        return 800;
     case 3:
-        return 300;
+        return 1000;
     }
 }

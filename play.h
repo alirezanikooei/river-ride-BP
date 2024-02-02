@@ -46,25 +46,31 @@ int play()
             shoot--;
         move_airplane(key, airplane, &shoot_y, max_x, max_y);
         add_effect(key, frame, airplane);
-
-        if (frame % (int)tLevel == 0){
+        if (frame % (int)(tLevel) == 0)
+        {
             add_mine(airplane, frame);
         }
-        if (frame % (int)(tLevel*1.5) == 120){
+        if (frame % (int)(tLevel * 1.5) == 30)
+        {
             add_fighter(airplane, frame);
         }
-        if (level > 1 && frame % (int)(tLevel*2) == 200){
+        if (level > 0 && frame % (int)(tLevel * 2) == 59)
+        {
             add_bomber(airplane, frame);
         }
-        if(frame % (int)(mintLevel) == 300){
+        if (level > 0 && frame % (int)(tLevel * 3) == 89)
+        {
+            add_drone(airplane, frame);
+        }
+        if (frame % (int)(mintLevel) == 0)
+        {
             add_helicopter(airplane, frame);
         }
 
         // score board
-         
-        score_board(&score,airplane, frame, level);
+        score_board(&score, airplane, frame, level);
 
-        update_enemy(airplane, frame, board,&score);
+        update_enemy(airplane, frame, board, &score);
         if (airplane->health > 70)
             set_color("green");
         else if (airplane->health > 30)
@@ -75,7 +81,7 @@ int play()
             if (airplane->health < 15 && frame % 2 == 0)
                 set_color("");
         }
-        print_imageXY("airplane", airplane, &row, &len, board, airplane,&score);
+        print_imageXY("airplane", airplane, &row, &len, board, airplane, &score);
         airplane->sizeY = row + 34;
         airplane->sizeX = len - 45;
         set_color("");
@@ -89,12 +95,15 @@ int play()
                         board[i][j] = 0;
         }
         frame++;
-        usleep(16666.6666667);
+        long double t = 16666.6666667;
+        int tMIn = score / 50;
+        t-=tMIn;
+        usleep(t);
         if (airplane->health <= 0)
         {
-            //     char name[20] = {};
-            //    get_name(name,score,firstTime,airplane);
-            //    break;
+            // char name[20] = {};
+            // get_name(name, score, firstTime, airplane);
+            // break;
         }
         clear();
         refresh();

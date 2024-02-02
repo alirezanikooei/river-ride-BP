@@ -33,14 +33,16 @@ void end_game(int score,int firstTime,objP airplane,char name[20]){
     struct tm *tm_info;
     tm_info = gmtime(&unix_timestamp);
     FILE *file = fopen("history/logs.txt", "a");
-    fprintf(file, "%.4d %.4d %d %.2d %.2d %.2d %.2d %.2d %20s\n",tmScore,timeLen, tm_info->tm_year + 1900, tm_info->tm_mon + 1, tm_info->tm_mday,tm_info->tm_hour,tm_info->tm_min,tm_info->tm_sec,name);
+    char level_name[12] = {};
+    get_level_name(level_name);
+    fprintf(file, "%.5d %.4d %d %.2d %.2d %.2d %.2d %.2d %20s %13s\n",tmScore,timeLen, tm_info->tm_year + 1900, tm_info->tm_mon + 1, tm_info->tm_mday,tm_info->tm_hour,tm_info->tm_min,tm_info->tm_sec,name, level_name);
     fclose(file);
     while (1){
         int key = get_key();
-        if(key == '\n'){
+        // if(key == '\n'){
             menu_game();
             break;
-        }
+        // }
     }
     
 }

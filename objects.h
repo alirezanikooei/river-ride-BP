@@ -136,7 +136,7 @@ int add_shoot_enemy(objP airplane, int frame, objP enemy)
         newOB->y = enemy->y;
         newOB->Vy = 10;
         newOB->direction = 1;
-        newOB->health = 50;
+        newOB->health = 30;
         strcpy(&(newOB->fileShape), "bounce.health");
         current->next = newOB;
         newOB->previous = current;
@@ -186,7 +186,29 @@ int add_fighter(objP airplane, int frame)
     newOB->previous = current;
     newOB->id = current->id + 1;
     return 0;
-}int add_helicopter(objP airplane, int frame)
+}int add_drone(objP airplane, int frame)
+{
+    objP current = airplane;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    int s = current;if(s<0)s*=-1;
+    srand(s*time(NULL));
+    objP newOB = (objP)calloc(1, sizeof(obj));
+    newOB->x = rand() % 250 + 10;
+    newOB->y = -40;
+    newOB->Vy = 3;
+    newOB->damage = 20;
+    newOB->direction = 5;
+    newOB->health = 50;
+    strcpy(&(newOB->fileShape), "drone");
+    current->next = newOB;
+    newOB->previous = current;
+    newOB->id = current->id + 1;
+    return 0;
+}
+int add_helicopter(objP airplane, int frame)
 {
     objP current = airplane;
     while (current->next != NULL)
@@ -199,7 +221,7 @@ int add_fighter(objP airplane, int frame)
     newOB->x = rand() % 250 + 10;
     newOB->y = -40;
     newOB->Vy = 10;
-    newOB->damage = 20;
+    newOB->damage = 10;
     newOB->direction = 1;
     newOB->health = 50;
     strcpy(&(newOB->fileShape), "helicopter");
@@ -222,7 +244,7 @@ int add_bomber(objP airplane, int frame)
     newOB->y = -40;
     newOB->Vy = 3;
     newOB->Vx = 1;
-    newOB->damage = 20;
+    newOB->damage = 27;
     newOB->direction = 4;
     newOB->health = 50;
     newOB->airplane = airplane;
@@ -232,6 +254,7 @@ int add_bomber(objP airplane, int frame)
     newOB->id = current->id + 1;
     return 0;
 }
+
 int add_bounce(objP airplane, int frame, objP enemy){
     int s = enemy;if(s<0)s*=-1;
     srand(s*time(NULL));
@@ -281,7 +304,16 @@ int update_enemy(objP airplane, int frame, int *board,int * score)
     objP current = airplane->next;
     while (current)
     {
-
+        if(current->direction == 5 && frame%5 == 0){
+            if(current->x > airplane->x)
+                current->x--;
+            else if(current->x < airplane->x)
+                current->x++;
+            if(current->y > airplane->y)
+                current->y--;
+            else if(current->y < airplane->y)
+                current->y++;
+        }
         if ((current->direction == 1 || current->direction == 3 || current->direction == 4) && frame % current->Vy == 0)
             current->y++;
         if (current->direction == 0 && frame % current->Vy == 0)

@@ -110,7 +110,7 @@ int menu_game()
         print_image("menu.menu");
         set_color("");
         if (n % 3 == 1)
-            set_color("blue");
+            set_color("green");
         print_image("menu.playagain");
         set_color("");
         if (n % 3 == 2)

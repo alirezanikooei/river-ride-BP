@@ -31,10 +31,11 @@ void logs()
     {
         char line[MAX_LINE_LENGTH] = {};
         i++;
-        fseek(file, -51 * i, SEEK_END);
+        fseek(file, -66 * i, SEEK_END);
         fgets(line, MAX_LINE_LENGTH, file);
         int score, timeLEN, y, m, d, h, min, s;
-        sscanf(line, "%d %d %d %d %d %d %d %d %s\n", &score, &timeLEN, &y, &m, &d, &h, &min, &s,name);
+        char level_name[13] = {};
+        sscanf(line, "%d %d %d %d %d %d %d %d %s %s %s\n", &score, &timeLEN, &y, &m, &d, &h, &min, &s,name,level_name);
         if (first == 0)
             sumDate = date_to_time(y, m, d,h, min, s);
         first = 1;
@@ -46,10 +47,11 @@ void logs()
         if (score > highScore)
             highScore = score;
         mvprintw(row + 10, 3, "%s", name);
-        mvprintw(row + 10, 23, "score: %d", score);
-        mvprintw(row + 10, 34, "duration: %d\"", timeLEN);
-        mvprintw(row + 10, 50, "date: %d-%d-%d", y, m, d);
-        mvprintw(row + 10, 68, "%d:%d:%d", h, min, s);
+        mvprintw(row + 10, 25, "score: %d", score);
+        mvprintw(row + 10, 39, "duration: %d\"", timeLEN);
+        mvprintw(row + 10, 60, "date: %d-%d-%d", y, m, d);
+        mvprintw(row + 10, 77, "%d:%d:%d", h, min, s);
+        mvprintw(row + 10, 100, "level: %s",level_name);
         row++;
     }
     attron(A_BOLD);

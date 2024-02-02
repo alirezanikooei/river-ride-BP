@@ -62,7 +62,7 @@ int print_image_score(char name[], int x, int y)
     refresh();
     return 0;
 }
-int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], objP airplane,int * score)
+int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], objP airplane, int *score)
 {
 
     // if(!strcmp("bomber",ob->fileShape)){}
@@ -86,7 +86,7 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
     *row = 0;
     if (!strcmp(ob->fileShape, "fighter") && ob->health < 200)
         set_color("red");
-    if(!strcmp(ob->fileShape, "bounce.health"))
+    if (!strcmp(ob->fileShape, "bounce.health"))
         set_color("green");
     while (fgets(shape, MAX_LINE_LENGTH, fptr) != NULL)
     {
@@ -106,6 +106,36 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
             else if (!strcmp(ob->fileShape, "shoot"))
             {
                 board[row_i][col_i] = ob->id;
+            }
+            else if (!strcmp(ob->fileShape, "drone"))
+            {
+                if (board[row_i][col_i] == 1)
+                {
+                    airplane->damage = 0;
+                    airplane->health -= ob->damage;
+                    board[row_i][col_i] = 0;
+                    delete_enemy(ob->id, airplane);
+                    set_color("");
+                    fclose(fptr);
+                    refresh();
+                    return 0;
+                }
+                else if (board[row_i][col_i] >= 2 && ob->id != board[row_i][col_i])
+                {
+                    delete_enemy(board[row_i][col_i], airplane);
+                    board[row_i][col_i] == 0;
+                    if (ob && ob->id)
+                        ob->health -= 50;
+                    set_color("");
+                    fclose(fptr);
+                    (*score) += 10;
+                    refresh();
+                    return 0;
+                }
+                else
+                {
+                    board[row_i][col_i] = ob->id;
+                }
             }
             else if (!strcmp(ob->fileShape, "shoot.enemy"))
             {
@@ -134,12 +164,13 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
                     refresh();
                     return 0;
                 }
-            }else if (!strcmp(ob->fileShape, "bounce.health"))
+            }
+            else if (!strcmp(ob->fileShape, "bounce.health"))
             {
                 if (board[row_i][col_i] == 1)
                 {
                     airplane->health += ob->health;
-                    if(airplane->health > 100)
+                    if (airplane->health > 100)
                         airplane->health = 100;
                     board[row_i][col_i] = 0;
                     delete_enemy(ob->id, airplane);
@@ -148,7 +179,8 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
                     refresh();
                     return 0;
                 }
-            }else if (!strcmp(ob->fileShape, "bounce.gun"))
+            }
+            else if (!strcmp(ob->fileShape, "bounce.gun"))
             {
                 if (board[row_i][col_i] == 1)
                 {
@@ -182,7 +214,7 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
                         ob->health -= 50;
                     set_color("");
                     fclose(fptr);
-                    (*score)+=7;
+                    (*score) += 7;
                     refresh();
                     return 0;
                 }
@@ -209,7 +241,7 @@ int print_imageXY(char name[], objP ob, int *row, int *len, int board[][400], ob
                         ob->health -= 50;
                     set_color("");
                     fclose(fptr);
-                    (*score)+=3;
+                    (*score) += 3;
                     refresh();
                     return 0;
                 }
