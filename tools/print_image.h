@@ -55,7 +55,7 @@ int print_image_score(char name[], int x, int y)
     int row = 0;
     while (fgets(read_string, sizeof(read_string), fptr) != NULL)
     {
-        mvprintw(10 + y + row, x, "%s", read_string);
+        mvprintw(40 + y + row, x, "%s", read_string);
         row++;
     }
     fclose(fptr);

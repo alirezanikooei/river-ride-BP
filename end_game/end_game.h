@@ -24,7 +24,7 @@ void end_game(int score,int firstTime,objP airplane,char name[20]){
         char n[7] = {}; 
         strcpy(n,"nums/");
         n[5] = 48 + score_num[i];
-        print_image_score(n,50-i*8,100);
+        print_image_score(n,120-i*8,180);
     }
     set_color("");
     
