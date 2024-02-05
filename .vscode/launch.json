@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/home/alireza/Documents/BP",
-      "program": "/home/alireza/Documents/BP/main",
+      "program": "/home/alireza/Documents/BP/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
